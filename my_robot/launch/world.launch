@@ -13,7 +13,7 @@
     <arg name="world_name" value="$(arg world_file)"/>
   </include>
 
-    <!-- Robot pose -->
+  <!-- Robot pose for Gazebo -->
   <arg name="x" default="1"/>
   <arg name="y" default="1"/>
   <arg name="z" default="0"/>
@@ -22,18 +22,17 @@
   <arg name="yaw" default="0"/>
 
   <!-- Find my robot Description-->
-  
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot)/urdf/my_robot.xacro'"/>
 
-   <!-- Launch other relevant files-->
+  <!-- Launch other relevant files-->
   <include file="$(find my_robot)/launch/robot_description.launch"/>
 
   <!-- Spawn My Robot -->
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-        args="-urdf -param robot_description -model my_robot 
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model my_robot 
               -x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
-  <!--launch rviz-->
-  <node name="rviz" pkg="rviz" type="rviz" respawn="false"/>
+  <!--launch rviz with pre-configured displays-->
+  <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find my_robot)/rviz/rviz_config_file.rviz" />
+
 </launch>
