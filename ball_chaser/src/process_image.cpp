@@ -36,7 +36,9 @@ void process_image_callback(const sensor_msgs::Image img)
 
   for (int i = 0; i < img.height * img.step; i++)
   {
- 
+    // Compare R, G & B channels to 255
+    // Red img.data[i] | G = img.data[i+1] | B = img.data[i+2]
+
     if (img.data[i] == 255 && img.data[i + 1] == 255 && img.data[i + 2] == 255)
     {
       ball_found = true;
